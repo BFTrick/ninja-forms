@@ -13,16 +13,20 @@ function ninja_forms_display_field_help( $field_id, $data ){
 		$show_help = 0;
 	}
 
-	if( isset( $data['help_text'] ) ){
+	$help_text = '';
+	if( isset( $data['help_text'] ) ) {
 		$help_text = $data['help_text'];
-	}else{
-		$help_text = '';
 	}
 
-	if($show_help){
-		?>
-		<img class='ninja-forms-help-text' src="<?php echo NINJA_FORMS_URL;?>/images/question-ico.gif" title="<?php echo $help_text;?>">
-	<?php
+	// only proceed if we're supposed to show the help field
+	if( $show_help ) {
+
+		// get the help image
+		$img_src = NINJA_FORMS_URL . '/images/question-ico.gif';
+
+		// load the help image template
+		ninja_forms_get_template( 'fields/help.php', array( 'img_src' => $img_src, 'help_text' => $help_text ) );
+
 	}
 }	
 

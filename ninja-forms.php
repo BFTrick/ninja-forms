@@ -51,6 +51,7 @@ global $wpdb, $wp_version;
 
 define("NINJA_FORMS_DIR", WP_PLUGIN_DIR."/".basename( dirname( __FILE__ ) ) );
 define("NINJA_FORMS_URL", plugins_url()."/".basename( dirname( __FILE__ ) ) );
+define("NINJA_FORMS_TEMPLATE_URL", apply_filters( 'ninja_forms_template_url', 'ninja-forms/' ) );
 define("NINJA_FORMS_VERSION", "2.3.8");
 define("NINJA_FORMS_TABLE_NAME", $wpdb->prefix . "ninja_forms");
 define("NINJA_FORMS_FIELDS_TABLE_NAME", $wpdb->prefix . "ninja_forms_fields");
@@ -94,6 +95,7 @@ require_once( NINJA_FORMS_DIR . "/includes/display/processing/req-fields-pre-pro
 //require_once( NINJA_FORMS_DIR . "/includes/display/processing/attach-post-media.php" );
 
 //Display Form Functions
+require_once( NINJA_FORMS_DIR . "/includes/display/get-template.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/form/display-form.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/fields/display-fields.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/form/response-message.php" );

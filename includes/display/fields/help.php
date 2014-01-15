@@ -15,7 +15,7 @@ function ninja_forms_display_field_help( $field_id, $data ){
 
 	$help_text = '';
 	if( isset( $data['help_text'] ) ) {
-		$help_text = $data['help_text'];
+		$help_text = htmlentities( $data['help_text'] );
 	}
 
 	// only proceed if we're supposed to show the help field
@@ -26,7 +26,6 @@ function ninja_forms_display_field_help( $field_id, $data ){
 
 		// load the help image template
 		ninja_forms_get_template( 'fields/help.php', array( 'img_src' => $img_src, 'help_text' => $help_text ) );
-
 	}
 }	
 

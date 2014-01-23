@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 2.3.8
+Version: 2.4.1
 Author: The WP Ninjas
 Author URI: http://ninjaforms.com
 Text Domain: ninja-forms
@@ -52,7 +52,7 @@ global $wpdb, $wp_version;
 define("NINJA_FORMS_DIR", WP_PLUGIN_DIR."/".basename( dirname( __FILE__ ) ) );
 define("NINJA_FORMS_URL", plugins_url()."/".basename( dirname( __FILE__ ) ) );
 define("NINJA_FORMS_TEMPLATE_URL", apply_filters( 'ninja_forms_template_url', 'ninja-forms/' ) );
-define("NINJA_FORMS_VERSION", "2.3.8");
+define("NINJA_FORMS_VERSION", "2.4.1");
 define("NINJA_FORMS_TABLE_NAME", $wpdb->prefix . "ninja_forms");
 define("NINJA_FORMS_FIELDS_TABLE_NAME", $wpdb->prefix . "ninja_forms_fields");
 define("NINJA_FORMS_FAV_FIELDS_TABLE_NAME", $wpdb->prefix . "ninja_forms_fav_fields");
@@ -76,6 +76,7 @@ require_once( NINJA_FORMS_DIR . "/includes/display/scripts.php" );
 
 // Include Processing Functions if a form has been submitted.
 require_once( NINJA_FORMS_DIR . "/includes/display/processing/class-ninja-forms-processing.php" );
+require_once( NINJA_FORMS_DIR . "/includes/display/processing/class-display-loading.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/processing/pre-process.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/processing/process.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/processing/post-process.php" );
@@ -115,9 +116,9 @@ require_once( NINJA_FORMS_DIR . "/includes/display/form/form-visibility.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/fields/restore-progress.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/fields/inside-label-hidden.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/fields/field-type.php" );
-require_once( NINJA_FORMS_DIR . "/includes/display/fields/calc-filter.php" );
 //require_once( NINJA_FORMS_DIR . "/includes/display/fields/list-term-filter.php" );
 require_once( NINJA_FORMS_DIR . "/includes/display/fields/default-value-filter.php" );
+require_once( NINJA_FORMS_DIR . "/includes/display/fields/calc-field-class.php" );
 
 /* Require Pre-Registered Tabs and their sidebars */
 

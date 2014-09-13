@@ -98,7 +98,7 @@ add_filter( 'nf_sub_table_row_actions', 'nf_old_subs_table_row_actions_filter', 
 /**
  * ninja_forms_get_subs() has been deprecated in favour of Ninja_Forms()->subs()->get( $args ) or Ninja_Forms()->form( 23 )->get_subs( $args )
  * You can also use WordPress queries ,since this is a custom post type.
- * 
+ *
  * @since 2.7
  */
 
@@ -196,7 +196,7 @@ function ninja_forms_get_sub_count( $args = array() ) {
 
 /**
  * ninja_forms_get_sub_by_id( $sub_id ) has been deprecated in favour of Ninja_Forms()->sub( 23 );
- * 
+ *
  * @since 2.7
  */
 
@@ -237,7 +237,7 @@ function ninja_forms_get_sub_by_id( $sub_id ) {
 
 /**
  * ninja_forms_get_all_subs() has been deprecated in favour of Ninja_Forms()->subs()->get();
- * 
+ *
  * @since 2.7
  */
 
@@ -251,9 +251,9 @@ function ninja_forms_get_sub_by_id( $sub_id ) {
 
 /**
  * ninja_forms_insert_sub() has been deprecated in favour of Ninja_Forms()->subs()->create( $form_id );
- * Because submissions are now a CPT, this function will only return false. 
+ * Because submissions are now a CPT, this function will only return false.
  * Please replace any instances of this function with the replacement.
- * 
+ *
  * @since 2.7
  */
 
@@ -263,7 +263,7 @@ function ninja_forms_insert_sub( $args ) {
 		return false;
 
 	$form_id = $args['form_id'];
-	
+
 	$sub_id = Ninja_Forms()->subs()->create( $form_id );
 	$args['sub_id'] = $sub_id;
 
@@ -274,9 +274,9 @@ function ninja_forms_insert_sub( $args ) {
 
 /**
  * ninja_forms_update_sub() has been deprecated in favour of Ninja_Forms()->sub( 23 )->update_field( id, value );
- * Because submissions are now a CPT, this function will only return false. 
+ * Because submissions are now a CPT, this function will only return false.
  * Please replace any instances of this function with the replacement.
- * 
+ *
  * @since 2.7
  */
 
@@ -299,7 +299,7 @@ function ninja_forms_update_sub( $args ){
 				$user_value = $d['user_value'];
 				$sub->add_field( $field_id, $user_value );
 			}
-		}		
+		}
 	}
 
 	foreach ( $args as $key => $value ) {
@@ -312,7 +312,7 @@ function ninja_forms_update_sub( $args ){
  * ninja_forms_export_subs_to_csv() has been deprecated in favour of Ninja_Forms()->subs()->export( sub_ids, return );
  * or Ninja_Forms()->sub( 23 )->export( return );
  * Please replace any instances of this function with the replacement.
- * 
+ *
  * @since 2.7
  */
 
@@ -328,7 +328,7 @@ function ninja_forms_implode_r($glue, $pieces){
 				$out = ninja_forms_implode_r($glue, $piece);
 			} else {
 				$out .= ninja_forms_implode_r($glue, $piece); // recurse
-			}			
+			}
 		} else {
 			if ( $out == '' ) {
 				$out .= $piece;
@@ -343,7 +343,7 @@ function ninja_forms_implode_r($glue, $pieces){
 
 /**
  * Get the csv delimiter
- * 
+ *
  * @return string
  */
 function ninja_forms_get_csv_delimiter() {
@@ -352,7 +352,7 @@ function ninja_forms_get_csv_delimiter() {
 
 /**
  * Get the csv enclosure
- * 
+ *
  * @return string
  */
 function ninja_forms_get_csv_enclosure() {
@@ -361,7 +361,7 @@ function ninja_forms_get_csv_enclosure() {
 
 /**
  * Get the csv delimiter
- * 
+ *
  * @return string
  */
 function ninja_forms_get_csv_terminator() {
@@ -387,8 +387,8 @@ function nf_change_admin_menu_filter( $cap ) {
 
 add_filter( 'ninja_forms_admin_parent_menu_capabilities', 'nf_change_admin_menu_filter' );
 
-/** 
- * Deprecated as of version 2.8 
+/**
+ * Deprecated as of version 2.8
  */
 
 // The admin_mailto setting has been deprecated. Because users may have used this setting to modify who receives the admin email,
@@ -411,7 +411,7 @@ function nf_modify_admin_mailto( $setting, $setting_name, $id ) {
 	// Bail if this isn't the "to" setting.
 	if ( $setting_name != 'to' )
 		return $setting;
-	
+
 	$admin_mailto = $ninja_forms_processing->get_form_setting( 'admin_mailto' );
 	$ninja_forms_processing->update_form_setting( 'admin_mailto', '' );
 
@@ -705,38 +705,38 @@ function nf_csv_attachment( $sub_id ){
 
 	// make sure this form is supposed to attach a CSV
 	if( 1 == $ninja_forms_processing->get_form_setting( 'admin_attach_csv' ) AND 'submit' == $ninja_forms_processing->get_action() ) {
-		
+
 		// create CSV content
 		$csv_content = Ninja_Forms()->sub( $sub_id )->export( true );
-		
+
 		$upload_dir = wp_upload_dir();
 		$path = trailingslashit( $upload_dir['path'] );
 
 		// create temporary file
 		$path = tempnam( $path, 'Sub' );
 		$temp_file = fopen( $path, 'r+' );
-		
+
 		// write to temp file
 		fwrite( $temp_file, $csv_content );
 		fclose( $temp_file );
-		
+
 		// find the directory we will be using for the final file
 		$path = pathinfo( $path );
 		$dir = $path['dirname'];
 		$basename = $path['basename'];
-		
+
 		// create name for file
 		$new_name = apply_filters( 'ninja_forms_submission_csv_name', 'ninja-forms-submission' );
-		
+
 		// remove a file if it already exists
 		if( file_exists( $dir.'/'.$new_name.'.csv' ) ) {
 			unlink( $dir.'/'.$new_name.'.csv' );
 		}
-		
+
 		// move file
 		rename( $dir.'/'.$basename, $dir.'/'.$new_name.'.csv' );
 		$file1 = $dir.'/'.$new_name.'.csv';
-		
+
 		// add new file to array of existing files
 		$files = $ninja_forms_processing->get_form_setting( 'admin_attachments' );
 		array_push( $files, $file1 );
@@ -760,7 +760,7 @@ function nf_modify_attachments( $files, $n_id ) {
 	}
 
 	$ninja_forms_processing->update_form_setting( 'admin_attachments', '' );
-	
+
 	return $files;
 }
 
@@ -783,4 +783,4 @@ function nf_deprecate_all_fields_email_table( $value, $form_id ) {
 	return apply_filters( 'ninja_forms_email_field_list', $value, $form_id );
 }
 
-add_filter( 'nf_all_fields_table', 'nf_deprecate_all_fields_email_table' );
+add_filter( 'nf_all_fields_table', 'nf_deprecate_all_fields_email_table', 10, 2 );
